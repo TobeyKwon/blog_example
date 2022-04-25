@@ -6,10 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -27,15 +24,9 @@ public class UserController {
         return "joinForm";
     }
 
-    @PostMapping("/join")
-    public String join(@ModelAttribute User user) {
-        log.info("UserController.join");
-        userRepository.save(user);
-        return "redirect:/";
-    }
-
     @GetMapping("/login")
     public String loginForm() {
         log.info("UserController.loginForm");
+        return "loginForm";
     }
 }
