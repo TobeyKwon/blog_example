@@ -3,14 +3,11 @@
 <head>
     <div th:replace="/layout/header.html :: fragment-header"></div>
 </head>
-
-
 <body>
 <div th:replace="/layout/nav.html :: fragment-nav"></div>
 
-
 <div class="container">
-    <form action="/auth/loginProc" method="post">
+    <form>
         <div class="form-group">
             <label for="username">username</label>
             <input type="text" name="username" class="form-control" placeholder="Enter username" id="username">
@@ -23,13 +20,10 @@
         <div class="form-group form-check">
             <label class="form-check-label" name="remember"><input type="checkbox" class="form-check-input" id="remember">Remember me</label>
         </div>
-        <button id="btn-login" class="btn btn-primary">로그인</button>
     </form>
-
+    <button id="btn-login" class="btn btn-primary">로그인</button>
 </div>
-
-
+<script th:src="@{/js/user.js}"></script>
 <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
-
 </body>
 </html>
