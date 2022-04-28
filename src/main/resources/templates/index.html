@@ -5,6 +5,29 @@
 </head>
 <body>
 <div th:replace="/layout/nav.html :: fragment-nav"></div>
+<div class="container">
+    <div class="card m-2" th:each="board : ${boards.content}">
+        <div class="card-body">
+            <h4 class="card-title" th:text="${board.title}">제목 적는 부분</h4>
+            작성자 : <span class="card-content" th:text="${board.author.username}">제목 적는 부분</span>
+            <br/>
+            <a href="#" class="btn btn-primary" th:href="@{/board/{id}(id = ${board.id})}">상세보기</a>
+        </div>
+    </div>
+
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item" th:if="${!boards.first}">
+            <a class="page-link" href="#" th:href="@{/(page = ${boards.number - 1})}" tabindex="-1">Previous</a>
+        </li>
+        <li class="page-item active">
+            <a class="page-link" href="#" th:href="@{/(page = ${boards.number})}" th:text="${boards.number+1}"></a>
+        </li>
+        <li class="page-item" th:if="${!boards.last}">
+            <a class="page-link" href="#" th:href="@{/(page = ${boards.number + 1})}">Next</a>
+        </li>
+    </ul>
+</div>
 <footer th:replace="/layout/footer.html :: fragment-footer"></footer>
 </body>
 </html>

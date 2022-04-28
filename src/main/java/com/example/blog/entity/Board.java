@@ -27,7 +27,6 @@ public class Board {
     @Lob
     private String content;
 
-    @ColumnDefault("0")
     private int count;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,4 +38,8 @@ public class Board {
 
     @CreationTimestamp
     private LocalDateTime localDateTime;
+
+    public void increamentCount() {
+        this.count = count + 1;
+    }
 }

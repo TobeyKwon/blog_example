@@ -1,0 +1,29 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <div th:replace="/layout/header.html :: fragment-header"></div>
+</head>
+<body>
+<div th:replace="/layout/nav.html :: fragment-nav"></div>
+<div class="container">
+    <button class="btn btn-secondary" th:onclick="history.back()">돌아가기</button>
+    <a class="btn btn-warning" th:href="@{/board/{id}/update (id=${board.id})}" th:if="${#session.getAttribute('loginUser') != null && board.author.id == #session.getAttribute('loginUser').id}">수정</a>
+    <button class="btn btn-danger" id="btn-delete" th:if="${#session.getAttribute('loginUser') != null && board.author.id == #session.getAttribute('loginUser').id}">삭제</button>
+    <br><br>
+    <div>
+        글 번호: <span><i id="id" th:text="${board.id}"></i></span>
+        작성자 : <span><i th:text="${board.author.username}"></i></span>
+    </div>
+    <div>
+        <h3 th:text="${board.title}">제목</h3>
+    </div>
+    <hr>
+    <div>
+        <div th:utext="${board.content}">내용</div>
+    </div>
+    <hr>
+</div>
+<script th:src="@{/js/board.js}"></script>
+<footer th:replace="/layout/footer.html :: fragment-footer"></footer>
+</body>
+</html>
