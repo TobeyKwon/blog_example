@@ -22,6 +22,31 @@
         <div th:utext="${board.content}">내용</div>
     </div>
     <hr>
+    <div class="card" th:if="${session.loginUser != null}">
+        <form>
+            <input type="hidden" id="boardId" th:value="${board.id}">
+            <div>
+                <div class="card-body"><textarea id="reply-content" class="form-control" rows="1"></textarea></div>
+                <div class="card-footer"><button type="button" class="btn btn-primary" id="btn-reply-save">등록</button></div>
+            </div>
+        </form>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-header">댓글 리스트</div>
+        <ul id="reply--box" class="list-group">
+            <li id="reply--1" class="list-group-item d-flex justify-content-between" th:each="reply : ${board?.replyList}">
+                <div th:text="${reply.content}">댓글 내용입니다.</div>
+                <div class="d-flex">
+                    <div class="font-italic" th:text="'작성자 : ' + ${reply.user.username} + ' '">작성자:ssarmango &nbsp</div>
+                    <button class="badge" th:onclick="|javascript:index.replyDelete(${board.id}, ${reply.id})|">삭제</button>
+                </div>
+            </li>
+            <li th:if="${board.replyList.isEmpty()}" class="list-group-item d-flex justify-content-between">
+                <div>보여줄 내용이 없습니다.</div>
+            </li>
+        </ul>
+    </div>
 </div>
 <script th:src="@{/js/board.js}"></script>
 <footer th:replace="/layout/footer.html :: fragment-footer"></footer>

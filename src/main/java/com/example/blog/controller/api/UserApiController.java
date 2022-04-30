@@ -41,4 +41,13 @@ public class UserApiController {
             return new ResponseEntity<>(-1, HttpStatus.OK);
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Integer> update(@PathVariable Integer id, @RequestBody User updateParam, HttpSession session) {
+        log.info("UserApiController.login");
+        User user = userService.update(id, updateParam);
+        session.invalidate();
+        session.setAttribute("loginUser", user);
+        return new ResponseEntity<>(1, HttpStatus.OK);
+    }
 }

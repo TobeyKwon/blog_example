@@ -8,6 +8,10 @@ let index = {
             console.log("버튼클릭");
             this.login();
         })
+        $("#btn-update").on("click", () => {
+            console.log("버튼클릭")
+            this.update();
+        })
     },
     save: function () {
         let data = {
@@ -48,6 +52,26 @@ let index = {
             } else {
                 alert("로그인 실패");
             }
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    },
+    update: function () {
+        let id = $("#id").val();
+        let data = {
+            password: $("#password").val(),
+            email: $("#email").val(),
+        }
+        $.ajax({
+            type: "put",
+            url: `/api/user/${id}`,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function (response) {
+            console.log(response);
+            alert("회원정보 수정이 완료되었습니다.");
+            history.back();
         }).fail(function (error) {
             alert(JSON.stringify(error));
         });

@@ -1,10 +1,8 @@
 package com.example.blog.controller;
 
 import com.example.blog.entity.Board;
-import com.example.blog.repository.BoardRepository;
 import com.example.blog.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -13,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/")
 @Controller
 public class BoardController {
 
@@ -32,7 +29,9 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String showDetail(@PathVariable Integer id, Model model) {
+        System.out.println("BoardController.showDetail");
         Board board = boardService.showDetail(id);
+        System.out.println("board = " + board);
         model.addAttribute("board", board);
         return "detail";
     }

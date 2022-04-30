@@ -12,6 +12,10 @@ let index = {
             console.log("버튼 클릭");
             this.update()
         })
+        $("#btn-reply-save").on("click", () => {
+            console.log("버튼 클릭");
+            this.replySave()
+        })
     },
     save: function () {
         let data = {
@@ -69,6 +73,41 @@ let index = {
             location.href = "/"
         }).fail(function (error){
             alert("글수정 실패")
+            console.log(error)
+        })
+    },
+    replySave: function () {
+        let boardId = $("#boardId").val()
+        let data = {
+            content: $("#reply-content").val(),
+        }
+        console.log(data)
+        $.ajax({
+            type: "post",
+            url: `/api/board/${boardId}/reply`,
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }).done(function (response){
+            alert("댓글 작성 완료!")
+            console.log(response)
+            location.href = `/board/${boardId}`
+        }).fail(function (error){
+            alert("댓글 실패")
+            console.log(error)
+        })
+    },
+    replyDelete: function (boardId, replyId) {
+        $.ajax({
+            type: "delete",
+            url: `/api/board/${boardId}/reply/${replyId}`,
+            dataType: "json"
+        }).done(function (response){
+            alert("댓글 삭제 완료!")
+            console.log(response)
+            location.href = `/board/${boardId}`
+        }).fail(function (error){
+            alert("댓글 삭제 실패")
             console.log(error)
         })
     }

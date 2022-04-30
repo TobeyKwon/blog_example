@@ -1,8 +1,10 @@
 package com.example.blog.service;
 
 import com.example.blog.entity.Board;
+import com.example.blog.entity.Reply;
 import com.example.blog.entity.User;
 import com.example.blog.repository.BoardRepository;
+import com.example.blog.repository.ReplyRepository;
 import com.example.blog.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
+    private final ReplyRepository replyRepository;
 
     @Transactional
     public Integer savePost(Board board, Integer userId) {
@@ -37,12 +40,15 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public Board showDetail(Integer id) {
-        return boardRepository.findById(id)
+        Board board = boardRepository.findById(id)
                 .orElseThrow(() -> {
-                    return new IllegalArgumentException("글 상세보기 실패: 아이디를 찾을 수 없습니다.");
+                    return new IllegalArgumentException("글 상세보기 실패: 글 아이디를 찾을 수 없습니다.");
                 });
+        board.increamentCount();
+        System.out.println("board = " + board);
+        return board;
     }
 
     @Transactional
@@ -58,5 +64,21 @@ public class BoardService {
                 });
         find.setTitle(udpateParam.getTitle());
         find.setContent(udpateParam.getContent());
+    }
+
+    @Transactional
+    public void saveReply(Integer boardId, Reply reply, User user) {
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> {
+                    return new IllegalArgumentException("댓글 쓰기 실패: 게시글 id를 찾을 수 없습니다.");
+                });
+        reply.setUser(user);
+        reply.setBoard(board);
+
+        replyRepository.save(reply);
+    }
+
+    public void deleteReply(Integer replyId) {
+        replyRepository.deleteById(replyId);
     }
 }

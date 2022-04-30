@@ -1,9 +1,6 @@
 package com.example.blog.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.lang.Nullable;
@@ -13,7 +10,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Entity
 public class Board {
 
@@ -33,13 +31,19 @@ public class Board {
     @JoinColumn(name = "author_id")
     private User author;
 
-    @OneToMany(mappedBy = "board")
+    @OrderBy("id desc")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     List<Reply> replyList = new ArrayList<>();
 
     @CreationTimestamp
-    private LocalDateTime localDateTime;
+    private LocalDateTime dt_create;
 
     public void increamentCount() {
         this.count = count + 1;
+    }
+
+    public void addReply(Reply reply) {
+        replyList.add(reply);
+        reply.setBoard(this);
     }
 }
